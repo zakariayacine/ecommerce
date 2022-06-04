@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>Liste des employés</title>
+	</head>
+	<body>
+
+    <a href='/emp/add'>Ajouter un employé </a>
+
+		<table border="1">
+			<caption>Liste des employés</caption>
+			<thead>
+			<tr>
+				<th> NUMERO </th>
+				<th> Nom </th>
+				<th> Prénom </th>
+				<th> Service </th>
+				<th> Salaire </th>
+				<th> Action </th>
+			</tr>
+			</thead>
+			<tbody>
+			<%
+			for (let i = 0; i<employes.length;i++)
+			{ %>
+			<tr>
+				<td><%= employes[i].ID_EMP%></td>
+				<td><%= employes[i].NOM_EMP%></td>
+				<td><%= employes[i].PRENOM_EMP%></td>
+				<td><%= employes[i].NOM_SERVICE%></td>
+				<td><%= employes[i].SALAIRE%></td>
+				<td><a href='/emp/<%= employes[i].ID_EMP%>'><button>Detail</button></a></td>
+			</tr> ;
+            <%
+			}
+			%>
+			</tbody>
+		</table>
+
+
+	</body>
+</html>

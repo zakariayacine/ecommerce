@@ -1,0 +1,13 @@
+{
+  "name": "projetCompelte",
+  "version": "1.0.0",
+  "dependencies": {
+    "cors": "2.8.5",
+    "ejs": "^3.1.8",
+    "express": "4.17.3",
+    "mysql": "2.18.1"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}
