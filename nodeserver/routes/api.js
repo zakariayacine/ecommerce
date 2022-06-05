@@ -1,6 +1,5 @@
 const express = require("express");
 const api = express.Router();
-
 // MY MODULES
 const users_module = require("../model/users");
 const products_module = require("../model/products");
@@ -27,7 +26,6 @@ api.get("/user/:id", function (req, res) {
     res.status(200).send(dataSent);
   });
 });
-//continuer a finir les api
 api.post("/user/add", function (req, res) {
   let inputs = req.body;
   console.log(inputs);
@@ -71,7 +69,6 @@ api.get("/product/:id", function (req, res) {
     res.status(200).send(dataSent);
   });
 });
-//continuer a finir les api
 api.post("/product/add", function (req, res) {
   let inputs = req.body;
   console.log(inputs);

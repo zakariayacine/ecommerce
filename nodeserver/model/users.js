@@ -7,7 +7,6 @@ let get_users = function (callback) {
     callback(err, result);
   });
 };
-
 let get_user = function (id, callback) {
   let sql = "select * from users where id=" + id;
   database.connection.query(sql, null, function (err, result, fields) {
@@ -15,7 +14,6 @@ let get_user = function (id, callback) {
     callback(err, result);
   });
 };
-
 let user_add = function (
   name,
   email,
@@ -40,7 +38,6 @@ let user_add = function (
     }
   );
 };
-
 let user_update = function (
   id,
   name,
@@ -67,7 +64,6 @@ let user_update = function (
     callback(err, result);
   });
 };
-
 exports.get_users = get_users;
 exports.get_user = get_user;
 exports.user_add = user_add;
