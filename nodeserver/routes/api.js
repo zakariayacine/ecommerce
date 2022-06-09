@@ -124,4 +124,15 @@ api.get("/orders/:id", function (req, res) {
     res.status(200).send(dataSent);
   });
 });
+api.get("/order/qtt/:id/:oper", function (req, res) {
+    orders_module.order_qtt_change(req.params.id,req.params.oper, function (err, data) {
+      if (err) console.log(err);
+      let obj = {
+        err: err,
+        data: data,
+      };
+      res.status(200).send(obj);
+    }
+  );
+});
 module.exports = api;

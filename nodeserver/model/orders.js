@@ -1,5 +1,7 @@
 const database = require("./database");
 const usefull = require("./usefull");
+
+//controller get orders
 let get_orders = function (id, callback) {
   let sql = "select * from orders where inovice_id=" + id;
   database.connection.query(sql, null, function (err, result, fields) {
@@ -7,7 +9,7 @@ let get_orders = function (id, callback) {
     callback("", result);
   });
 };
-
+//controller add order
 let order_add = function (qtt, product_id, user_id, inovice_id, callback) {
   usefull.timeStamp(function (err, result) {
     let created = result;
@@ -58,34 +60,56 @@ let order_add = function (qtt, product_id, user_id, inovice_id, callback) {
     }
   });
 };
-let product_update = function (
-  id,
-  name,
-  description,
-  photos,
-  price,
-  stock,
-  created_at,
-  updated_at,
-  callback
-) {
-  let data_update = {
-    id: id,
-    name: name,
-    description: description,
-    photos: photos,
-    price: price,
-    stock: stock,
-    created_at: created_at,
-    updated_at: updated_at,
-  };
-  let sql = "update products set ?";
-  database.connection.query(sql, [data_update], function (result, err, fields) {
-    if (err) console.log("error : ", err);
+//controller quantity alter
+let order_qtt_change = function (id, oper, callback) {
+  select_one_order(id, function (err, result) {
+    if (result.length === 0) {
+      callback((err = "dont exist"), (result = "null"));
+    } else {
+      if (result.length > 0) {
+        if (Number(result[0].qtt) === 1 && Number(oper) === 0) {
+          delete_one_order(id, function (err, result) {
+            callback(err, (result = "order product deleted"));
+          });
+        } else if (Number(oper) === 0) {
+          qtt_alter_order(id, "-", function (err, result) {
+            callback(err, result);
+            console.log(result);
+          });
+        } else if (Number(oper) === 1) {
+          qtt_alter_order(id, "+", function (err, result) {
+            callback(err, result);
+          });
+        }
+      }
+    }
+  });
+};
+
+//function quantity alter
+let qtt_alter_order = function (id, operator, callback) {
+  let sql = "Update orders Set qtt = qtt " + operator + " 1 Where id=" + id;
+  database.connection.query(sql, null, function (err, result) {
+    callback(err, result);
+  });
+};
+//function to select one
+let delete_one_order = function (id, callback) {
+  let sql = "DELETE FROM orders WHERE id =" + id;
+  database.connection.query(sql, null, function (err, result) {
     callback(err, result);
   });
 };
 
+//function to select one
+let select_one_order = function (id, callback) {
+  let sql = "SELECT * FROM ORDERS WHERE id=" + id;
+  database.connection.query(sql, null, function (err, result) {
+    callback(err, result);
+  });
+};
+
+//function to add order || update quantity if exist
 let order_add_function = function (
   qtt,
   product_id,
@@ -121,14 +145,12 @@ let order_add_function = function (
         [[data_insert]],
         function (err, result, fields) {
           if (err) console.log("error : ", err);
-          let sql = "SELECT * FROM orders where inovice_id=" + inovice_id;
-          database.connection.query(sql, null, function (err, result, fields) {
-            console.log(result);
-            callback(err, result);
+          get_orders(inovice_id,function(err, result){
+            callback(err,result);
           });
         }
       );
-    }else{
+    } else {
       console.log(result[0].id);
       newqtt = Number(qtt) + Number(result[0].qtt);
       let sqlUpdatQtt =
@@ -138,16 +160,15 @@ let order_add_function = function (
         null,
         function (err, result, fields) {
           if (err) console.log("error : ", err);
-          let sql = "SELECT * FROM orders where inovice_id=" + inovice_id;
-          database.connection.query(sql, null, function (err, result, fields) {
-            console.log(result);
-            callback(err, result);
+          get_orders(inovice_id,function(err, result){
+            callback(err,result);
           });
         }
       );
-    };
+    }
   });
 };
 
 exports.order_add = order_add;
 exports.get_orders = get_orders;
+exports.order_qtt_change = order_qtt_change;
