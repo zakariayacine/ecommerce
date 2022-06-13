@@ -1,12 +1,11 @@
+import React from 'react'
 import '../../style/sidenav.css';
 function Sidenav() {
   return (
     <div>
       <div className="sidenav">
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
+        <a href="/">Products list</a>
+        <a href="/inovice">Orders list</a>
       </div>
     </div>
   );

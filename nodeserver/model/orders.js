@@ -3,12 +3,16 @@ const usefull = require("./usefull");
 
 //controller get orders
 let get_orders = function (id, callback) {
-  let sql = "select * from orders where inovice_id=" + id;
-  database.connection.query(sql, null, function (err, result, fields) {
-    if (err) console.log("error : ", err);
     get_order_products_detail(id,function(err,result){
       callback(err,result);
-    })
+  });
+};
+//controller get orders
+let get_all_inovice = function (callback) {
+  let sql = "select * from inovices";
+  database.connection.query(sql, null, function (err, result, fields) {
+    if (err) console.log("error : ", err);
+      callback(err,result);
   });
 };
 //controller add order
@@ -172,7 +176,7 @@ let order_add_function = function (
 };
 //function get name and price and total price for order
 let get_order_products_detail = function(inovice_id, callback){
- let sql = "SELECT o.id, qtt, name, price, inovice_id, photos, qtt*price as total  FROM orders o INNER JOIN products p ON o.product_id = p.id WHERE o.inovice_id ="+inovice_id;
+ let sql = "SELECT o.id, o.user_id, qtt, name, price, inovice_id, photos, qtt*price as total  FROM orders o INNER JOIN products p ON o.product_id = p.id WHERE o.inovice_id ="+inovice_id;
 database.connection.query(sql,null,function(err,result){
  callback(err,result);
 });
@@ -180,3 +184,4 @@ database.connection.query(sql,null,function(err,result){
 exports.order_add = order_add;
 exports.get_orders = get_orders;
 exports.order_qtt_change = order_qtt_change;
+exports.get_all_inovice = get_all_inovice;

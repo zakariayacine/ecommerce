@@ -59,6 +59,17 @@ api.get("/products", function (req, res) {
     res.status(200).send(dataSent);
   });
 });
+api.get("/inovices", function (req, res) {
+  orders_module.get_all_inovice(function (err, result) {
+    let dataSent = {
+      data: {
+        inovice: result,
+      },
+      err: err,
+    };
+    res.status(200).send(dataSent);
+  });
+});
 api.get("/product/:id", function (req, res) {
   products_module.get_product(req.params.id, function (err, result) {
     let dataSent = {
